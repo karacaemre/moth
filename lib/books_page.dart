@@ -3,11 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 import 'comment_page.dart';
 import 'login_page.dart';
 
 class BooksPage extends StatelessWidget {
+  int selectedPage = 0;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,10 +31,12 @@ class Home extends StatelessWidget {
         decoration: backgroundGradient(),
         child: Stack(
           children: [
-            Align(
+            /*           Align(
               alignment: Alignment.bottomCenter,
               child: CustomBottomNav(),
             ),
+
+  */
             Column(
               children: [
                 CustomBanner(),
@@ -62,7 +65,9 @@ class Home extends StatelessWidget {
                     'simdi.jpg',
                   ],
                 ),
-                RaisedButton(
+                BottomNavBarWidget(),
+
+/*                RaisedButton(
                   elevation: 5,
                   padding: EdgeInsets.all(15),
                   shape: RoundedRectangleBorder(
@@ -81,6 +86,7 @@ class Home extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => CommentPage()));
                   },
                 ),
+    */
               ],
             )
           ],
@@ -117,6 +123,7 @@ class BookListView extends StatelessWidget {
 
   const BookListView({Key? key, required this.title, required this.books})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
@@ -153,6 +160,7 @@ class BookCard extends StatelessWidget {
   static const filePath = 'assets/images/';
 
   const BookCard({Key? key, required this.file}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -196,6 +204,7 @@ class CustomBanner extends StatelessWidget {
 
 class CustomBottomNav extends StatelessWidget {
   final auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -224,6 +233,81 @@ class CustomBottomNav extends StatelessWidget {
   }
 }
 
+class BottomNavBarWidget extends StatefulWidget {
+  const BottomNavBarWidget({Key? key}) : super(key: key);
+
+  @override
+  State<BottomNavBarWidget> createState() => _BottomNavBarWidgetState();
+}
+
+class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
+  int _selectedPage = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedPage = index;
+    });
+  }
+
+  Widget choosePage(int _selectedPage) {
+    if (_selectedPage == 0) {
+      return Home();
+    }
+    if (_selectedPage == 1) {
+      return BooksPage();
+    }
+    if (_selectedPage == 2) {
+      return CommentPage();
+    }
+    return BooksPage();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: Theme.of(context).copyWith(canvasColor: Colors.black12),
+      child: BottomNavigationBar(
+        currentIndex: _selectedPage,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
+        fixedColor: Colors.black,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: SizedBox(
+              height: 0,
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            title: SizedBox(
+              height: 0,
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_box),
+            title: SizedBox(
+              height: 0,
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            title: SizedBox(
+              height: 0,
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            title: SizedBox(
+              height: 0,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class LinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -244,4 +328,3 @@ class LinePainter extends CustomPainter {
     return true;
   }
 }
-
