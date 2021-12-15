@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:moth/main.dart';
+import 'package:moth/profile_page.dart';
 
 import 'comment_page.dart';
 import 'login_page.dart';
@@ -66,7 +67,25 @@ class Home extends StatelessWidget {
                     'simdi.jpg',
                   ],
                 ),
-                BottomNavBarWidget(),
+                RaisedButton(
+                  elevation: 5,
+                  padding: EdgeInsets.all(15),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)),
+                  color: Colors.white,
+                  child: Text(
+                    'PROFILE PAGE',
+                    style: TextStyle(
+                        fontFamily: 'PermanentMarker',
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ProfileUI2()));
+                  },
+                ),
 
 /*                RaisedButton(
                   elevation: 5,
@@ -216,7 +235,7 @@ class CustomBottomNav extends StatelessWidget {
             elevation: 5,
             padding: EdgeInsets.all(10),
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
             color: Colors.white,
             child: Text('Logout',
                 style: TextStyle(
@@ -257,10 +276,10 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     // this has changed
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) =>
-            _list[_selectedPage])); // this has changed
+        _list[_selectedPage])); // this has changed
   }
 
-  final List<Widget> _list = [Home(), BooksPage(), LoginScreen()];
+  final List<Widget> _list = [Home(), BooksPage(), CommentPage(), ProfileUI2()];
 
   Widget choosePage(int _selectedPage) {
     if (_selectedPage == 0) {
@@ -271,6 +290,9 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     }
     if (_selectedPage == 2) {
       return CommentPage();
+    }
+    if (_selectedPage == 3) {
+      return ProfileUI2();
     }
     return BooksPage();
   }
