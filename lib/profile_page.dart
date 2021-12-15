@@ -35,7 +35,7 @@ class ProfileUI2 extends StatelessWidget {
                 height: 60,
               ),
               Text(
-                "Rajat Palankar"
+                "Damla"
                 ,style: TextStyle(
                   fontSize: 25.0,
                   color:Colors.blueGrey,
@@ -47,7 +47,7 @@ class ProfileUI2 extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "Belgaum, India"
+                "Istanbul, Türkiye"
                 ,style: TextStyle(
                   fontSize: 18.0,
                   color:Colors.black45,
@@ -59,7 +59,7 @@ class ProfileUI2 extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "App Developer at XYZ Company"
+                "'You can add a status'"
                 ,style: TextStyle(
                   fontSize: 15.0,
                   color:Colors.black45,
@@ -75,7 +75,7 @@ class ProfileUI2 extends StatelessWidget {
                   elevation: 2.0,
                   child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 12,horizontal: 30),
-                      child: Text("Skill Sets",style: TextStyle(
+                      child: Text("Favourites",style: TextStyle(
                           letterSpacing: 2.0,
                           fontWeight: FontWeight.w300
                       ),))
@@ -84,7 +84,7 @@ class ProfileUI2 extends StatelessWidget {
                 height: 15,
               ),
               Text(
-                "App Developer || Digital Marketer"
+                "The books they read"
                 ,style: TextStyle(
                   fontSize: 18.0,
                   color:Colors.black45,
@@ -102,16 +102,16 @@ class ProfileUI2 extends StatelessWidget {
                       Expanded(
                         child: Column(
                           children: [
-                            Text("Project",
+                            Text("Rated",
                               style: TextStyle(
-                                  color: Colors.blueAccent,
+                                  color: Color(0xff5ac18e),
                                   fontSize: 22.0,
                                   fontWeight: FontWeight.w600
                               ),),
                             SizedBox(
                               height: 7,
                             ),
-                            Text("15",
+                            Text("150",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 22.0,
@@ -124,16 +124,16 @@ class ProfileUI2 extends StatelessWidget {
                         child:
                         Column(
                           children: [
-                            Text("Followers",
+                            Text("Commented",
                               style: TextStyle(
-                                  color: Colors.blueAccent,
+                                  color: Color(0xff5ac18e),
                                   fontSize: 22.0,
                                   fontWeight: FontWeight.w600
                               ),),
                             SizedBox(
                               height: 7,
                             ),
-                            Text("2000",
+                            Text("20",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 22.0,
@@ -160,18 +160,14 @@ class ProfileUI2 extends StatelessWidget {
                     ),
                     child: Ink(
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [Colors.pink,Colors.redAccent]
-                        ),
+                        color: Color(0xff5ac18e),
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       child: Container(
                         constraints: BoxConstraints(maxWidth: 100.0,maxHeight: 40.0,),
                         alignment: Alignment.center,
                         child: Text(
-                          "Contact me",
+                          "See Books",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
@@ -190,18 +186,14 @@ class ProfileUI2 extends StatelessWidget {
                     ),
                     child: Ink(
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [Colors.pink,Colors.redAccent]
-                        ),
+                        color: Color(0xff5ac18e),
                         borderRadius: BorderRadius.circular(80.0),
                       ),
                       child: Container(
                         constraints: BoxConstraints(maxWidth: 100.0,maxHeight: 40.0,),
                         alignment: Alignment.center,
                         child: Text(
-                          "Portfolio",
+                          "Send DM",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
