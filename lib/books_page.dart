@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:moth/main.dart';
 
 import 'comment_page.dart';
 import 'login_page.dart';
@@ -242,12 +243,24 @@ class BottomNavBarWidget extends StatefulWidget {
 
 class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
   int _selectedPage = 0;
+  PageController pageController = PageController();
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedPage = index;
     });
+    pageController.animateToPage(index,
+        duration: Duration(milliseconds: 1000), curve: Curves.bounceIn);
   }
+
+  _onTap() {
+    // this has changed
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) =>
+            _list[_selectedPage])); // this has changed
+  }
+
+  final List<Widget> _list = [Home(), BooksPage(), LoginScreen()];
 
   Widget choosePage(int _selectedPage) {
     if (_selectedPage == 0) {
@@ -273,7 +286,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
         fixedColor: Colors.black,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.menu_book),
             title: SizedBox(
               height: 0,
             ),
