@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:moth/main.dart';
 import 'package:moth/profile_page.dart';
+import 'package:moth/screens/addbooks.dart';
 
 import 'comment_page.dart';
 import 'login_page.dart';
@@ -67,25 +68,92 @@ class Home extends StatelessWidget {
                     'simdi.jpg',
                   ],
                 ),
-                RaisedButton(
-                  elevation: 5,
-                  padding: EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
-                  color: Colors.white,
-                  child: Text(
-                    'PROFILE PAGE',
-                    style: TextStyle(
-                        fontFamily: 'PermanentMarker',
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ProfileUI2()));
-                  },
-                ),
+
+                Row(
+                  children: <Widget>[
+                    Flexible(
+                      fit: FlexFit.tight,
+                      flex: 1,
+                      child: RaisedButton(
+                        color: Colors.green[100],
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.camera, color: Colors.redAccent),
+                            SizedBox(width: 5.0),
+                            Text("Profile"),
+                          ],
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProfileUI2()));
+                        },
+                      ),
+                    ),
+                    Flexible(
+                      fit: FlexFit.tight,
+                      flex: 1,
+                      child: RaisedButton(
+                        color: Colors.green[100],
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.search, color: Colors.black),
+                            SizedBox(width: 5.0),
+                            Text("Search"),
+                          ],
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProfileUI2()));
+                        },
+                      ),
+                    ),
+                    Flexible(
+                      fit: FlexFit.tight,
+                      flex: 1,
+                      child: RaisedButton(
+                        color: Colors.green[100],
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.add, color: Colors.white),
+                            SizedBox(width: 5.0),
+                            Text("Add"),
+                          ],
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => addbooks()));
+                        },
+                      ),
+                    ),
+                  ],
+                )
+
+                // BottomNavBarWidget(),
+                // RaisedButton(
+                //   elevation: 5,
+                //   padding: EdgeInsets.all(15),
+                //   shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(50)),
+                //   color: Colors.white,
+                //   child: Text(
+                //     'PROFILE PAGE',
+                //     style: TextStyle(
+                //         fontFamily: 'PermanentMarker',
+                //         color: Colors.black,
+                //         fontSize: 15,
+                //         fontWeight: FontWeight.bold),
+                //   ),
+                //   onPressed: () {
+                //     Navigator.push(context,
+                //         MaterialPageRoute(builder: (context) => ProfileUI2()));
+                //   },
+                // ),
 
 /*                RaisedButton(
                   elevation: 5,
@@ -231,23 +299,23 @@ class CustomBottomNav extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         height: 50,
-        child: RaisedButton(
-            elevation: 5,
-            padding: EdgeInsets.all(10),
-            shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-            color: Colors.white,
-            child: Text('Logout',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.black,
-                    fontFamily: 'PermanentMarker')),
-            onPressed: () {
-              auth.signOut();
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
-            }),
+        // child: RaisedButton(
+        //     elevation: 5,
+        //     padding: EdgeInsets.all(10),
+        //     shape:
+        //         RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        //     color: Colors.white,
+        //     child: Text('Logout',
+        //         style: TextStyle(
+        //             fontWeight: FontWeight.bold,
+        //             fontSize: 18,
+        //             color: Colors.black,
+        //             fontFamily: 'PermanentMarker')),
+        //     onPressed: () {
+        //       auth.signOut();
+        //       Navigator.of(context).pushReplacement(
+        //           MaterialPageRoute(builder: (context) => LoginScreen()));
+        //     }),
       ),
     );
   }
@@ -276,7 +344,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     // this has changed
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) =>
-        _list[_selectedPage])); // this has changed
+            _list[_selectedPage])); // this has changed
   }
 
   final List<Widget> _list = [Home(), BooksPage(), CommentPage(), ProfileUI2()];
