@@ -57,7 +57,14 @@ class addbooksFormState extends State<addbooksForm> {
             decoration: const InputDecoration(
               icon: const Icon(Icons.calendar_today),
               hintText: 'Enter publishing date',
-              labelText: 'Dob',
+              labelText: 'Date published',
+            ),
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+              icon: const Icon(Icons.menu_book_sharp),
+              hintText: 'Enter summary',
+              labelText: 'Summary',
             ),
           ),
           new Container(
