@@ -56,7 +56,7 @@ class addbooksFormState extends State<addbooksForm> {
           TextFormField(
             decoration: const InputDecoration(
               icon: const Icon(Icons.calendar_today),
-              hintText: 'Enter your date of birth',
+              hintText: 'Enter publishing date',
               labelText: 'Dob',
             ),
           ),
