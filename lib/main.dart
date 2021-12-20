@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moth/books_page.dart';
 import 'login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,12 +7,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 void main() async {
   // FirebaseFirestore firestore = FirebaseFirestore.instance;
   WidgetsFlutterBinding.ensureInitialized();
- await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Welcome to Moth',
-      home: LoginScreen(),
+      home: BooksPage(),
     );
   }
 }

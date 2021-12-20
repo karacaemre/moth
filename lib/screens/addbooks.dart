@@ -14,6 +14,7 @@ class addbooks extends StatelessWidget {
         ),
         body: addbooksForm(),
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
