@@ -35,8 +35,8 @@ class ProfileUI2 extends StatelessWidget {
               child: Container(
                 alignment: Alignment(0.0, 2.5),
                 child: CircleAvatar(
-                  backgroundImage:
-                      NetworkImage("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"),
+                  backgroundImage: NetworkImage(
+                      "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"),
                   radius: 60.0,
                 ),
               ),
