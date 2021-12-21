@@ -1,20 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:moth/resource/colors.dart';
 import 'package:moth/resource/widgets.dart';
 import 'package:flutter/material.dart';
 
 class BookDetails extends StatelessWidget {
+  final _firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
+    CollectionReference bookref = _firestore.collection('books');
+    var PicRef = bookref.doc('PicRef');
+
     return Scaffold(
       body: Container(
         child: Column(
           children: <Widget>[
+            //   Text(
+            //     '${PicRef.get()}',
+            //     style: TextStyle(fontSize: 24),
+            //   ),
+            ElevatedButton(
+              child: Text('get data'),
+              onPressed: () async {
+                var response = await PicRef.get();
+                dynamic map = response.data();
+                print(map['PicRef']);
+              },
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 30.0),
-              child: Image.asset(
-                "assets/images/1984.jpg",
+              child: Image.network(
+                "https://firebasestorage.googleapis.com/v0/b/moth-d8dc9.appspot.com/o/1984.jpg?alt=media&token=78a10519-fc48-426a-beb2-5c1e0ecc183e",
                 height: 200,
               ),
             ),
@@ -112,6 +128,7 @@ class BookDetails extends StatelessWidget {
     );
   }
 }
+
 /*
   final firestoreInstance = FirebaseFirestore.instance;
 
