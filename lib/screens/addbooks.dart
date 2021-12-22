@@ -275,7 +275,11 @@ class addbooksFormState extends State<addbooksForm> {
                                     docId, imageUrl );
 
                                 if (gelenData) {
-                                  Navigator.of( context ).pop( );
+
+                              await    Future.delayed(Duration(milliseconds: 300));
+
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(builder: (context) => BooksPage()));
                                 }
                               } else {
                                 _showDialog( );
@@ -304,7 +308,7 @@ class addbooksFormState extends State<addbooksForm> {
         "summary": summaryController.text,
         "bookID": docId,
         "ratingCount": 0,
-        "totalRating": [],
+        "totalRating": 0,
         "bookComment": [],
         "bookCommentedUser": [],
         "bookImage": imageUrl
@@ -325,7 +329,7 @@ class addbooksFormState extends State<addbooksForm> {
         "summary": summaryController.text,
         "bookID": docId,
         "ratingCount": 0,
-        "totalRating": [],
+        "totalRating": 0,
         "bookComment": [],
         "bookCommentedUser": [],
         "bookImage": ""

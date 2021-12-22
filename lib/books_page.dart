@@ -6,29 +6,42 @@ import 'package:moth/main.dart';
 import 'package:moth/profile_page.dart';
 import 'package:moth/screens/addbooks.dart';
 
+import 'book_details.dart';
 import 'comment_page.dart';
 import 'login_page.dart';
+import 'models/bookModel.dart';
 
 class BooksPage extends StatelessWidget {
   int selectedPage = 0;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'BOOKS PAGE',
-      theme: ThemeData(
-        iconTheme: IconThemeData(color: Colors.black, size: 40),
-      ),
-      home: Home(),
+    return Scaffold(
+      body: Home(),
     );
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  List<Book> _data = [];
+  List<Book> secondData = [];
+  List<DocumentSnapshot> _snap = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    _getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    FirebaseFirestore.instance.collection("books");
     return Scaffold(
       body: Container(
         decoration: backgroundGradient(),
@@ -40,143 +53,177 @@ class Home extends StatelessWidget {
             ),
 
   */
-            Column(
-              children: [
-                CustomBanner(),
-                BookListView(
-                  title: 'YOUR CHOICES',
-                  books: [
-                    '1984.jpg',
-                    'aylak.jpg',
-                    'dogru.jpg',
-                    'ermis.jpg',
-                    'ferrari.jpg',
-                    'gunluk.jpg',
-                    'hayvan.jpg',
-                    'kuantum.jpg'
-                  ],
-                ),
-                BookListView(
-                  title: 'USERS FAVORITES',
-                  books: [
-                    'kucuk.jpg',
-                    'magic.jpg',
-                    'marti.jpg',
-                    'nutuk.jpg',
-                    'power.jpg',
-                    'secret.jpg',
-                    'simdi.jpg',
-                  ],
-                ),
 
-                Row(
-                  children: <Widget>[
-                    Flexible(
-                      fit: FlexFit.tight,
-                      flex: 1,
-                      child: RaisedButton(
-                        color: Colors.green[100],
-                        child: Row(
-                          children: <Widget>[
-                            Icon(Icons.camera, color: Colors.redAccent),
-                            SizedBox(width: 5.0),
-                            Text("Profile"),
-                          ],
+            RefreshIndicator(
+              onRefresh: refresh,
+              child: ListView(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CustomBanner(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Text(
+                          "YOUR CHOICES",
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfileUI2()));
-                        },
                       ),
-                    ),
-                    Flexible(
-                      fit: FlexFit.tight,
-                      flex: 1,
-                      child: RaisedButton(
-                        color: Colors.green[100],
-                        child: Row(
-                          children: <Widget>[
-                            Icon(Icons.search, color: Colors.black),
-                            SizedBox(width: 5.0),
-                            Text("Search"),
-                          ],
+                      Container(
+                        height: 200,
+                        child: ListView.builder(
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => BookDetails(_data[index])));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  color: Colors.white,
+                                  child: _data[index].bookImage!.length == 0
+                                      ? Image.asset(
+                                          "assets/images/bookSoon.jpeg",
+                                          height: 200,
+                                          fit: BoxFit.cover,
+                                          width: 180,
+                                        )
+                                      : Image.network(
+                                          _data[index].bookImage!,
+                                          height: 500,
+                                          width: 180,
+                                        ),
+                                ),
+                              ),
+                            );
+                          },
+                          scrollDirection: Axis.horizontal,
+                          itemCount: _data.length,
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfileUI2()));
-                        },
                       ),
-                    ),
-                    Flexible(
-                      fit: FlexFit.tight,
-                      flex: 1,
-                      child: RaisedButton(
-                        color: Colors.green[100],
-                        child: Row(
-                          children: <Widget>[
-                            Icon(Icons.add, color: Colors.white),
-                            SizedBox(width: 5.0),
-                            Text("Add"),
-                          ],
+                      SizedBox(
+                        height: 100,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Text(
+                          "YOUR FAVORITES",
                         ),
-                        onPressed: () {
-print("sayfaya gidiyor");
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => addbooks()));
-                        },
                       ),
-                    ),
-                  ],
-                )
 
-                // BottomNavBarWidget(),
-                // RaisedButton(
-                //   elevation: 5,
-                //   padding: EdgeInsets.all(15),
-                //   shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(50)),
-                //   color: Colors.white,
-                //   child: Text(
-                //     'PROFILE PAGE',
-                //     style: TextStyle(
-                //         fontFamily: 'PermanentMarker',
-                //         color: Colors.black,
-                //         fontSize: 15,
-                //         fontWeight: FontWeight.bold),
-                //   ),
-                //   onPressed: () {
-                //     Navigator.push(context,
-                //         MaterialPageRoute(builder: (context) => ProfileUI2()));
-                //   },
-                // ),
+                      Container(
+                        height: 200,
+                        child: ListView.builder(
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                             onTap: (){
+                               Navigator.of(context).push(MaterialPageRoute(
+                                   builder: (context) => BookDetails(secondData[index])));
+                             },
 
-/*                RaisedButton(
-                  elevation: 5,
-                  padding: EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
-                  color: Colors.white,
-                  child: Text(
-                    'COMMENT PAGE',
-                    style: TextStyle(
-                        fontFamily: 'PermanentMarker',
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  color: Colors.white,
+                                  child: secondData[index].bookImage!.length == 0
+                                      ? Image.asset(
+                                          "assets/images/bookSoon.jpeg",
+                                          height: 200,
+                                          fit: BoxFit.cover,
+                                          width: 180,
+                                        )
+                                      : Image.network(
+                                          secondData[index].bookImage!,
+                                          height: 500,
+                                          width: 180,
+                                        ),
+                                ),
+                              ),
+                            );
+                          },
+                          scrollDirection: Axis.horizontal,
+                          itemCount: secondData.length,
+                        ),
+                      )
+
+
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Align(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Flexible(
+                    fit: FlexFit.tight,
+                    flex: 1,
+                    child: RaisedButton(
+                      color: Colors.green[100],
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.camera, color: Colors.redAccent),
+                          SizedBox(width: 5.0),
+                          Text("Profile"),
+                        ],
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfileUI2()));
+                      },
+                    ),
                   ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CommentPage()));
-                  },
-                ),
-    */
-              ],
+                  Flexible(
+                    fit: FlexFit.tight,
+                    flex: 1,
+                    child: RaisedButton(
+                      color: Colors.green[100],
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.search, color: Colors.black),
+                          SizedBox(width: 5.0),
+                          Text("Search"),
+                        ],
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfileUI2()));
+                      },
+                    ),
+                  ),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    flex: 1,
+                    child: RaisedButton(
+                      color: Colors.green[100],
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.add, color: Colors.white),
+                          SizedBox(width: 5.0),
+                          Text("Add"),
+                        ],
+                      ),
+                      onPressed: () {
+                        print("sayfaya gidiyor");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => addbooks()));
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              alignment: Alignment.bottomCenter,
             )
           ],
         ),
@@ -184,26 +231,51 @@ print("sayfaya gidiyor");
     );
   }
 
-  BoxDecoration backgroundGradient() {
-    return BoxDecoration(
-      gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          tileMode: TileMode.mirror,
-          stops: [
-            0.0,
-            0.4,
-            0.6,
-            1
-          ],
-          colors: [
-            Color(0x995ac18e),
-            Color(0x665ac18e),
-            Color(0x665ac18e),
-            Color(0x995ac18e),
-          ]),
-    );
+  Future _getData() async {
+    print("getdata çalıştı");
+    QuerySnapshot data;
+    data = await FirebaseFirestore.instance.collection("books").get();
+
+    if (data != null && data.docs.length > 0) {
+      setState(() {
+        _snap.addAll(data.docs);
+        _data = _snap.map((e) => Book.fromFirestore(e)).toList();
+        secondData = _snap.map((e) => Book.fromFirestore(e)).toList();
+        secondData.shuffle();
+      });
+    }
   }
+
+  Future<void> refresh() async {
+    setState(() {
+      _data.clear();
+      secondData.clear();
+      _snap.clear();
+    });
+
+    await _getData();
+  }
+}
+
+BoxDecoration backgroundGradient() {
+  return BoxDecoration(
+    gradient: LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        tileMode: TileMode.mirror,
+        stops: [
+          0.0,
+          0.4,
+          0.6,
+          1
+        ],
+        colors: [
+          Color(0x995ac18e),
+          Color(0x665ac18e),
+          Color(0x665ac18e),
+          Color(0x995ac18e),
+        ]),
+  );
 }
 
 class BookListView extends StatelessWidget {
@@ -281,6 +353,7 @@ class CustomBanner extends StatelessWidget {
                 Image.asset(
                   "assets/images/enjoy-your-book.png",
                   height: 120,
+                  width: MediaQuery.of(context).size.width / 1.5,
                 ),
               ],
             ),
