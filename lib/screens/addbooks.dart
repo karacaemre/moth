@@ -79,3 +79,17 @@ class addbooksFormState extends State<addbooksForm> {
     );
   }
 }
+
+// Future<void> addUser() {
+//   // Create a CollectionReference called users that references the firestore collection
+//   CollectionReference users = FirebaseFirestore.instance.collection('users');
+//   // Call the user's CollectionReference to add a new user
+//   return users
+//       .add({
+//     'full_name': fullName, // John Doe
+//     'company': company, // Stokes and Sons
+//     'age': age // 42
+//   })
+//       .then((value) => print("User Added"))
+//       .catchError((error) => print("Failed to add user: $error"));
+// }

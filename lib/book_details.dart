@@ -11,13 +11,13 @@ class BookDetails extends StatelessWidget {
     CollectionReference bookref = _firestore.collection('books');
     var PicRef = bookref.doc('1984');
 
-  var link = "https://firebasestorage.googleapis.com/v0/b/moth-d8dc9.appspot.com/o/1984.jpg?alt=media&token=78a10519-fc48-426a-beb2-5c1e0ecc183e";
+    var link =
+        "https://firebasestorage.googleapis.com/v0/b/moth-d8dc9.appspot.com/o/1984.jpg?alt=media&token=78a10519-fc48-426a-beb2-5c1e0ecc183e";
 
     return Scaffold(
       body: Container(
         child: Column(
           children: <Widget>[
-
             //   Text(
             //     '${PicRef.get()}',
             //     style: TextStyle(fontSize: 24),
@@ -29,8 +29,6 @@ class BookDetails extends StatelessWidget {
                 var response = await bookref.get();
                 var list = response.docs;
                 print(list.first.data());
-
-
               },
             ),
             ElevatedButton(
@@ -40,15 +38,11 @@ class BookDetails extends StatelessWidget {
                 dynamic map = response.data();
                 print(map['id']);
                 var pic = map['PicRef'];
-
               },
             ),
             Padding(
               padding: const EdgeInsets.only(top: 30.0),
-              child: Image.network(
-                "$link",
-                height: 200
-              ),
+              child: Image.network(link, height: 130),
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
