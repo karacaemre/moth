@@ -124,6 +124,7 @@ class Home extends StatelessWidget {
                           ],
                         ),
                         onPressed: () {
+print("sayfaya gidiyor");
                           Navigator.push(
                               context,
                               MaterialPageRoute(
