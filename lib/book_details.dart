@@ -91,11 +91,6 @@ class _BookDetailsState extends State<BookDetails> {
                             //
                             _myRating == null
                                 ? widget.book!.rating!.toStringAsFixed(2)
-
-
-
-
-
                                 : _myRating!.toStringAsFixed(2),
                             style: TextStyle(fontSize: 17),
                           ),
@@ -204,12 +199,11 @@ class _BookDetailsState extends State<BookDetails> {
                                           onRatingChanged: (rating) {
                                             setState(() {
                                               _rating = rating;
-                                              if(rateCheck==false){
-                                                _myRating=rating;
-                                              }else{
-                                                _myRating=null;
+                                              if (rateCheck == false) {
+                                                _myRating = rating;
+                                              } else {
+                                                _myRating = null;
                                               }
-
                                             });
                                           },
                                           filledIcon: Icons.star,
@@ -231,7 +225,6 @@ class _BookDetailsState extends State<BookDetails> {
                                         TextButton(
                                             onPressed: () async {
                                               await checkBookRated();
-
 
                                               if (rateCheck == false) {
                                                 try {
@@ -274,8 +267,7 @@ class _BookDetailsState extends State<BookDetails> {
                                                 Navigator.of(context).pop();
                                               } else if (rateCheck == true) {
                                                 setState(() {
-                                                  _myRating=null;
-
+                                                  _myRating = null;
                                                 });
                                                 print("rate leme yapıldı");
                                                 Fluttertoast.showToast(

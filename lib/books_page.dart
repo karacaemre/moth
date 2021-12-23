@@ -64,10 +64,10 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       InkWell(
-                          onTap: (){
+                          onTap: () {
                             print(_data.length);
-
-                          },child: CustomBanner()),
+                          },
+                          child: CustomBanner()),
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
@@ -83,7 +83,8 @@ class _HomeState extends State<Home> {
                             return InkWell(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => BookDetails(_data[index])));
+                                    builder: (context) =>
+                                        BookDetails(_data[index])));
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -110,7 +111,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       SizedBox(
-                        height:40,
+                        height: 40,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0),
@@ -118,7 +119,6 @@ class _HomeState extends State<Home> {
                           "YOUR FAVORITES",
                         ),
                       ),
-
                       Container(
                         height: 200,
                         child: ListView.builder(
@@ -126,27 +126,28 @@ class _HomeState extends State<Home> {
                               parent: AlwaysScrollableScrollPhysics()),
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
-                             onTap: (){
-                               Navigator.of(context).push(MaterialPageRoute(
-                                   builder: (context) => BookDetails(secondData[index])));
-                             },
-
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        BookDetails(secondData[index])));
+                              },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                   color: Colors.white,
-                                  child: secondData[index].bookImage!.length == 0
-                                      ? Image.asset(
-                                          "assets/images/bookSoon.jpeg",
-                                          height: 200,
-                                          fit: BoxFit.cover,
-                                          width: 180,
-                                        )
-                                      : Image.network(
-                                          secondData[index].bookImage!,
-                                          height: 500,
-                                          width: 180,
-                                        ),
+                                  child:
+                                      secondData[index].bookImage!.length == 0
+                                          ? Image.asset(
+                                              "assets/images/bookSoon.jpeg",
+                                              height: 200,
+                                              fit: BoxFit.cover,
+                                              width: 180,
+                                            )
+                                          : Image.network(
+                                              secondData[index].bookImage!,
+                                              height: 500,
+                                              width: 180,
+                                            ),
                                 ),
                               ),
                             );
@@ -155,8 +156,6 @@ class _HomeState extends State<Home> {
                           itemCount: secondData.length,
                         ),
                       )
-
-
                     ],
                   )
                 ],
@@ -173,7 +172,7 @@ class _HomeState extends State<Home> {
                       color: Colors.green[100],
                       child: Row(
                         children: <Widget>[
-                          Icon(Icons.camera, color: Colors.redAccent),
+                          Icon(Icons.person, color: Colors.redAccent),
                           SizedBox(width: 5.0),
                           Text("Profile"),
                         ],
@@ -215,7 +214,7 @@ class _HomeState extends State<Home> {
                         children: <Widget>[
                           Icon(Icons.add, color: Colors.white),
                           SizedBox(width: 5.0),
-                          Text("Add"),
+                          Text("Add a Book"),
                         ],
                       ),
                       onPressed: () {
@@ -347,11 +346,10 @@ class CustomBanner extends StatelessWidget {
     return CustomPaint(
       painter: LinePainter(),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16,vertical: 5),
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
         height: 170.0,
         child: Column(
           children: [
-
             Row(
               children: [
                 Image.asset(

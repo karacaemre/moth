@@ -233,7 +233,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: Container(
                           padding: const EdgeInsets.all(0.0),
-
                           width: 10.0,
                           height: 10.0,
                         ), //Container

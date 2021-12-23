@@ -197,8 +197,7 @@ class _LoginScreenState extends State<RegisterPage> {
         padding: EdgeInsets.all(15),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         color: Colors.white,
-        child:
-        Text(
+        child: Text(
           'REGISTER',
           style: TextStyle(
             fontFamily: 'PermanentMarker',
@@ -206,7 +205,6 @@ class _LoginScreenState extends State<RegisterPage> {
             fontSize: 18,
           ),
         ),
-
         onPressed: () async {
           try {
             final newUser = await _auth.createUserWithEmailAndPassword(

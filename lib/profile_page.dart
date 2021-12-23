@@ -180,65 +180,6 @@ class _ProfileUI2State extends State<ProfileUI2> {
             ),
           ),
 
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     RaisedButton(
-          //       onPressed: () {},
-          //       shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(80.0),
-          //       ),
-          //       child: Ink(
-          //         decoration: BoxDecoration(
-          //           color: Color(0xff5ac18e),
-          //           borderRadius: BorderRadius.circular(30.0),
-          //         ),
-          //         child: Container(
-          //           constraints: BoxConstraints(
-          //             maxWidth: 100.0,
-          //             maxHeight: 40.0,
-          //           ),
-          //           alignment: Alignment.center,
-          //           child: Text(
-          //             "See Books",
-          //             style: TextStyle(
-          //                 color: Colors.white,
-          //                 fontSize: 12.0,
-          //                 letterSpacing: 2.0,
-          //                 fontWeight: FontWeight.w300),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //     RaisedButton(
-          //       onPressed: () {},
-          //       shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(80.0),
-          //       ),
-          //       child: Ink(
-          //         decoration: BoxDecoration(
-          //           color: Color(0xff5ac18e),
-          //           borderRadius: BorderRadius.circular(80.0),
-          //         ),
-          //         child: Container(
-          //           constraints: BoxConstraints(
-          //             maxWidth: 100.0,
-          //             maxHeight: 40.0,
-          //           ),
-          //           alignment: Alignment.center,
-          //           child: Text(
-          //             "Send DM",
-          //             style: TextStyle(
-          //                 color: Colors.white,
-          //                 fontSize: 12.0,
-          //                 letterSpacing: 2.0,
-          //                 fontWeight: FontWeight.w300),
-          //           ),
-          //         ),
-          //       ),
-          //     )
-          //   ],
-          // ),
           Container(
             child: Expanded(
               child: ListView.builder(

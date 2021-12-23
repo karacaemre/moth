@@ -15,28 +15,35 @@ class Book {
   List? ratedUsers;
 
   Book(
-      {this.ratedUsers,this.author, this.rating, this.bookID, this.bookImage, this.bookName, this.bookComment, this.bookCommentedUser, this.totalRating, this.publishDate, this.ratingCount,this.summary});
-
-
+      {this.ratedUsers,
+      this.author,
+      this.rating,
+      this.bookID,
+      this.bookImage,
+      this.bookName,
+      this.bookComment,
+      this.bookCommentedUser,
+      this.totalRating,
+      this.publishDate,
+      this.ratingCount,
+      this.summary});
 
   Map<String, dynamic> toMap() {
     return {
-'author':author,
-      'bookCommentedUser':bookCommentedUser,
-      'bookID':bookID,
-      'bookImage':bookImage,
-      'name':bookName,
-      'publishDate':publishDate,
-      'ratingCount':ratingCount,
-      'summary':summary,
-      'totalRating':totalRating,
-      'ratedUsers':ratedUsers,
+      'author': author,
+      'bookCommentedUser': bookCommentedUser,
+      'bookID': bookID,
+      'bookImage': bookImage,
+      'name': bookName,
+      'publishDate': publishDate,
+      'ratingCount': ratingCount,
+      'summary': summary,
+      'totalRating': totalRating,
+      'ratedUsers': ratedUsers,
+    };
+  }
 
-
-    };}
-
-
-  factory Book.fromFirestore(DocumentSnapshot snapshot){
+  factory Book.fromFirestore(DocumentSnapshot snapshot) {
     var d = snapshot;
     return Book(
       author: d['author'],
@@ -46,14 +53,10 @@ class Book {
       bookName: d['name'],
       publishDate: d['publishDate'],
       ratingCount: d['ratingCount'],
-
       summary: d['summary'],
-     ratedUsers: d['ratedUsers']??[],
+      ratedUsers: d['ratedUsers'] ?? [],
       totalRating: d['totalRating'],
-      rating:0,
+      rating: 0,
     );
   }
-
-
-
 }

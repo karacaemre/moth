@@ -84,12 +84,15 @@ class _TestMeState extends State<CommentPage> {
                 child: ListTile(
 //                          color: Colors.blueAccent[700],
                   trailing: Padding(
-                    padding: const EdgeInsets.only(top:15.0),
-                    child: Text(DateFormat.yMMMd()
-                            .format(data[i].commentDateTime!)
-                            .toString() +
-                        "-" +
-                        DateFormat.j().format(data[i].commentDateTime!),style: TextStyle(fontSize: 13),),
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: Text(
+                      DateFormat.yMMMd()
+                              .format(data[i].commentDateTime!)
+                              .toString() +
+                          "-" +
+                          DateFormat.j().format(data[i].commentDateTime!),
+                      style: TextStyle(fontSize: 13),
+                    ),
                   ),
                   leading: GestureDetector(
                     onTap: () async {
@@ -114,13 +117,15 @@ class _TestMeState extends State<CommentPage> {
                     ),
                   ),
                   title: Text(
-
                     data[i].commentedUserName!,
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   subtitle: Padding(
-                    padding: const EdgeInsets.only(top:4.0),
-                    child: Text(data[i].comment!,style: TextStyle(fontSize: 16),),
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Text(
+                      data[i].comment!,
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ),
                 ),
               )
@@ -172,24 +177,6 @@ class _TestMeState extends State<CommentPage> {
             commentController.clear();
             FocusScope.of(context).unfocus();
             await refresh();
-
-            //
-            // if (formKey.currentState!.validate()) {
-            //   print(commentController.text);
-            //   setState(() {
-            //     var value = {
-            //       'name': 'Mahir',
-            //       'pic':
-            //           'https://lh3.googleusercontent.com/a-/AOh14GjRHcaendrf6gU5fPIVd8GIl1OgblrMMvGUoCBj4g=s400',
-            //       'message': commentController.text
-            //     };
-            //     filedata.insert(0, value);
-            //   });
-            //   commentController.clear();
-            //   FocusScope.of(context).unfocus();
-            // } else {
-            //   print("Not validated");
-            // }
           },
           formKey: formKey,
           commentController: commentController,

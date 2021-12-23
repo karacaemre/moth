@@ -15,11 +15,12 @@ class AddUser extends StatelessWidget {
   Widget build(BuildContext context) {
     // Create a CollectionReference called users that references the firestore collection
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    int _counter=0;
-    CollectionReference UsersRef = FirebaseFirestore.instance.collection('users');
-    UsersRef.add({'field':''});
+    int _counter = 0;
+    CollectionReference UsersRef =
+        FirebaseFirestore.instance.collection('users');
+    UsersRef.add({'field': ''});
 
-    final _firestore=FirebaseFirestore.instance;
+    final _firestore = FirebaseFirestore.instance;
 
     //int _counter=0;
     // CollectionReference BooksRef = FirebaseFirestore.instance.collection('books');
@@ -29,15 +30,14 @@ class AddUser extends StatelessWidget {
     var kitap1 = _firestore.collection('books').doc('BilimKurgu');
     print(kitap1.id);
 
-
     Future<void> addUser() {
       // Call the user's CollectionReference to add a new user
       return users
           .add({
-        'full_name': fullName, // John Doe
-        'company': company, // Stokes and Sons
-        'age': age // 42
-      })
+            'full_name': fullName, // John Doe
+            'company': company, // Stokes and Sons
+            'age': age // 42
+          })
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
     }
