@@ -186,26 +186,26 @@ class _HomeState extends State<Home> {
                       },
                     ),
                   ),
-                  Flexible(
-                    fit: FlexFit.tight,
-                    flex: 1,
-                    child: RaisedButton(
-                      color: Colors.green[100],
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.search, color: Colors.black),
-                          SizedBox(width: 5.0),
-                          Text("Search"),
-                        ],
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ProfileUI2()));
-                      },
-                    ),
-                  ),
+                  // Flexible(
+                  //   fit: FlexFit.tight,
+                  //   flex: 1,
+                  //   child: RaisedButton(
+                  //     color: Colors.green[100],
+                  //     child: Row(
+                  //       children: <Widget>[
+                  //         Icon(Icons.search, color: Colors.black),
+                  //         SizedBox(width: 5.0),
+                  //         Text("Search"),
+                  //       ],
+                  //     ),
+                  //     onPressed: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => ProfileUI2()));
+                  //     },
+                  //   ),
+                  // ),
                   Flexible(
                     fit: FlexFit.tight,
                     flex: 1,

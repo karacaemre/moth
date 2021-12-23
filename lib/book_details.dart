@@ -90,8 +90,13 @@ class _BookDetailsState extends State<BookDetails> {
                           child: Text(
                             //
                             _myRating == null
-                                ? widget.book!.rating.toString()
-                                : _myRating.toString(),
+                                ? widget.book!.rating!.toStringAsFixed(2)
+
+
+
+
+
+                                : _myRating!.toStringAsFixed(2),
                             style: TextStyle(fontSize: 17),
                           ),
                         ),
@@ -218,7 +223,7 @@ class _BookDetailsState extends State<BookDetails> {
                                         ),
                                         SizedBox(height: 32),
                                         Text(
-                                          'Rating : ${widget.book!.rating.toString()}',
+                                          'Rating : ${widget.book!.rating!.toStringAsFixed(2)}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .subtitle1,
