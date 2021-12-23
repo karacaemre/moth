@@ -30,31 +30,6 @@ class _TestMeState extends State<CommentPage> {
 
   final formKey = GlobalKey<FormState>();
   final TextEditingController commentController = TextEditingController();
-  List filedata = [
-    {
-      'name': 'Buse',
-      'pic':
-          'https://st3.depositphotos.com/1039762/15793/i/600/depositphotos_157937858-stock-photo-70th-anniversary-screening-premiere.jpg',
-      'message': 'kurk mantolu madonna çok güzel okumanızı tavsiye ederim'
-    },
-    {
-      'name': 'Utku',
-      'pic': 'https://picsum.photos/300/30',
-      'message': 'Evet ben de okudum.Kitaba hayran kaldım :)'
-    },
-    {
-      'name': 'Melis',
-      'pic':
-          'https://thumbs.dreamstime.com/b/close-up-photo-beautiful-amazing-her-lady-bad-person-tongue-out-mouth-showing-forehead-loser-symbol-teasing-friends-impolite-148230653.jpg',
-      'message': 'Martı Jonathan benim en sevdigim kitap'
-    },
-    {
-      'name': 'Ezgi',
-      'pic':
-          'https://blog.hubspot.com/hs-fs/hubfs/picnoi-free-stock-photos.jpg?width=350&name=picnoi-free-stock-photos.jpg',
-      'message': 'The secret bas ucu kitaplarımdan biridir'
-    },
-  ];
 
   Widget commentChild(List<Comments> data) {
     if (data.length == 0) {
@@ -189,7 +164,7 @@ class _TestMeState extends State<CommentPage> {
   }
 
   Future _getData() async {
-    print("getdata çalıştı");
+    print("getdata is working");
     QuerySnapshot data;
     data = await FirebaseFirestore.instance
         .collection("comments")

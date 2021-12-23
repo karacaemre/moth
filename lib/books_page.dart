@@ -2,12 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:moth/main.dart';
 import 'package:moth/profile_page.dart';
 import 'package:moth/screens/addbooks.dart';
 
 import 'book_details.dart';
-import 'comment_page.dart';
 import 'login_page.dart';
 import 'models/bookModel.dart';
 
@@ -28,6 +26,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final auth = FirebaseAuth.instance;
+
   List<Book> _data = [];
 
   List<Book> secondData = [];
@@ -49,13 +49,6 @@ class _HomeState extends State<Home> {
         decoration: backgroundGradient(),
         child: Stack(
           children: [
-            /*           Align(
-              alignment: Alignment.bottomCenter,
-              child: CustomBottomNav(),
-            ),
-
-  */
-
             RefreshIndicator(
               onRefresh: refresh,
               child: ListView(
@@ -71,7 +64,7 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
-                          "YOUR CHOICES",
+                          "BEST SELLERS",
                         ),
                       ),
                       Container(
@@ -116,7 +109,7 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0),
                         child: Text(
-                          "YOUR FAVORITES",
+                          "RECENTLY ADDED BOOKS",
                         ),
                       ),
                       Container(
@@ -155,6 +148,9 @@ class _HomeState extends State<Home> {
                           scrollDirection: Axis.horizontal,
                           itemCount: secondData.length,
                         ),
+                      ),
+                      SizedBox(
+                        height: 60,
                       )
                     ],
                   )
@@ -185,26 +181,6 @@ class _HomeState extends State<Home> {
                       },
                     ),
                   ),
-                  // Flexible(
-                  //   fit: FlexFit.tight,
-                  //   flex: 1,
-                  //   child: RaisedButton(
-                  //     color: Colors.green[100],
-                  //     child: Row(
-                  //       children: <Widget>[
-                  //         Icon(Icons.search, color: Colors.black),
-                  //         SizedBox(width: 5.0),
-                  //         Text("Search"),
-                  //       ],
-                  //     ),
-                  //     onPressed: () {
-                  //       Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) => ProfileUI2()));
-                  //     },
-                  //   ),
-                  // ),
                   Flexible(
                     fit: FlexFit.tight,
                     flex: 1,
@@ -218,13 +194,32 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                       onPressed: () {
-                        print("sayfaya gidiyor");
+                        print("redirecting...");
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => addbooks()));
                       },
                     ),
+                  ),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    flex: 1,
+                    child: RaisedButton(
+                        color: Colors.green[100],
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.exit_to_app, color: Colors.black),
+                            SizedBox(width: 5.0),
+                            Text("Logout"),
+                          ],
+                        ),
+                        onPressed: () {
+                          auth.signOut();
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                        }),
                   ),
                 ],
               ),
@@ -237,7 +232,7 @@ class _HomeState extends State<Home> {
   }
 
   Future _getData() async {
-    print("getdata çalıştı");
+    print("getdata is working");
     QuerySnapshot data;
     data = await FirebaseFirestore.instance.collection("books").get();
 
@@ -361,127 +356,6 @@ class CustomBanner extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CustomBottomNav extends StatelessWidget {
-  final auth = FirebaseAuth.instance;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: 50,
-        // child: RaisedButton(
-        //     elevation: 5,
-        //     padding: EdgeInsets.all(10),
-        //     shape:
-        //         RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-        //     color: Colors.white,
-        //     child: Text('Logout',
-        //         style: TextStyle(
-        //             fontWeight: FontWeight.bold,
-        //             fontSize: 18,
-        //             color: Colors.black,
-        //             fontFamily: 'PermanentMarker')),
-        //     onPressed: () {
-        //       auth.signOut();
-        //       Navigator.of(context).pushReplacement(
-        //           MaterialPageRoute(builder: (context) => LoginScreen()));
-        //     }),
-      ),
-    );
-  }
-}
-
-class BottomNavBarWidget extends StatefulWidget {
-  const BottomNavBarWidget({Key? key}) : super(key: key);
-
-  @override
-  State<BottomNavBarWidget> createState() => _BottomNavBarWidgetState();
-}
-
-class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
-  int _selectedPage = 0;
-  PageController pageController = PageController();
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedPage = index;
-    });
-    pageController.animateToPage(index,
-        duration: Duration(milliseconds: 1000), curve: Curves.bounceIn);
-  }
-
-  _onTap() {
-    // this has changed
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) =>
-            _list[_selectedPage])); // this has changed
-  }
-
-  final List<Widget> _list = [Home(), BooksPage(), CommentPage(), ProfileUI2()];
-
-  Widget choosePage(int _selectedPage) {
-    if (_selectedPage == 0) {
-      return Home();
-    }
-    if (_selectedPage == 1) {
-      return BooksPage();
-    }
-    if (_selectedPage == 2) {
-      return CommentPage();
-    }
-    if (_selectedPage == 3) {
-      return ProfileUI2();
-    }
-    return BooksPage();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(canvasColor: Colors.black12),
-      child: BottomNavigationBar(
-        currentIndex: _selectedPage,
-        onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
-        fixedColor: Colors.black,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
-            title: SizedBox(
-              height: 0,
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            title: SizedBox(
-              height: 0,
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_box),
-            title: SizedBox(
-              height: 0,
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            title: SizedBox(
-              height: 0,
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: SizedBox(
-              height: 0,
-            ),
-          ),
-        ],
       ),
     );
   }
