@@ -48,11 +48,12 @@ class Book {
       ratingCount: d['ratingCount'],
 
       summary: d['summary'],
-      ratedUsers: d['ratedUsers'],
+     ratedUsers: d['ratedUsers']??[],
       totalRating: d['totalRating'],
-      rating: d['totalRating']/d['ratingCount'],
+      rating:0,
     );
   }
+
 
 
 }

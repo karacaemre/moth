@@ -63,7 +63,11 @@ class _HomeState extends State<Home> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CustomBanner(),
+                      InkWell(
+                          onTap: (){
+                            print(_data.length);
+
+                          },child: CustomBanner()),
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
