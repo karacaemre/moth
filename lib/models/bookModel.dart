@@ -12,9 +12,28 @@ class Book {
   int? totalRating;
   double? rating;
   String? summary;
+  List? ratedUsers;
 
   Book(
-      {this.author, this.rating, this.bookID, this.bookImage, this.bookName, this.bookComment, this.bookCommentedUser, this.totalRating, this.publishDate, this.ratingCount,this.summary});
+      {this.ratedUsers,this.author, this.rating, this.bookID, this.bookImage, this.bookName, this.bookComment, this.bookCommentedUser, this.totalRating, this.publishDate, this.ratingCount,this.summary});
+
+
+
+  Map<String, dynamic> toMap() {
+    return {
+'author':author,
+      'bookCommentedUser':bookCommentedUser,
+      'bookID':bookID,
+      'bookImage':bookImage,
+      'name':bookName,
+      'publishDate':publishDate,
+      'ratingCount':ratingCount,
+      'summary':summary,
+      'totalRating':totalRating,
+      'ratedUsers':ratedUsers,
+
+
+    };}
 
 
   factory Book.fromFirestore(DocumentSnapshot snapshot){
@@ -29,6 +48,7 @@ class Book {
       ratingCount: d['ratingCount'],
 
       summary: d['summary'],
+      ratedUsers: d['ratedUsers'],
       totalRating: d['totalRating'],
       rating: d['totalRating']/d['ratingCount'],
     );

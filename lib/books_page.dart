@@ -29,7 +29,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Book> _data = [];
+
   List<Book> secondData = [];
+
   List<DocumentSnapshot> _snap = [];
 
   @override
@@ -63,7 +65,7 @@ class _HomeState extends State<Home> {
                     children: [
                       CustomBanner(),
                       Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
+                        padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
                           "YOUR CHOICES",
                         ),
@@ -104,7 +106,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       SizedBox(
-                        height: 100,
+                        height:40,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0),
@@ -341,13 +343,11 @@ class CustomBanner extends StatelessWidget {
     return CustomPaint(
       painter: LinePainter(),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16),
+        margin: EdgeInsets.symmetric(horizontal: 16,vertical: 5),
         height: 170.0,
         child: Column(
           children: [
-            SizedBox(
-              height: 40,
-            ),
+
             Row(
               children: [
                 Image.asset(

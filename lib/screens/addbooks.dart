@@ -311,6 +311,7 @@ class addbooksFormState extends State<addbooksForm> {
         "totalRating": 0,
         "bookComment": [],
         "bookCommentedUser": [],
+        "ratedUsers":[],
         "bookImage": imageUrl
       } );
       return true;
@@ -331,6 +332,7 @@ class addbooksFormState extends State<addbooksForm> {
         "ratingCount": 0,
         "totalRating": 0,
         "bookComment": [],
+        "ratedUsers": [],
         "bookCommentedUser": [],
         "bookImage": ""
 

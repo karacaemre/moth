@@ -1,25 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:moth/resource/colors.dart';
 import 'package:moth/resource/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:rating_bar/rating_bar.dart';
 
+import 'comment_page.dart';
 import 'models/bookModel.dart';
 
 class BookDetails extends StatefulWidget {
   Book? book;
+
   BookDetails(this.book);
+
   @override
-  State<BookDetails> createState() => _BookDetailsState();
+  State<BookDetails> createState() => _BookDetailsState( );
 }
 
 class _BookDetailsState extends State<BookDetails> {
   final _firestore = FirebaseFirestore.instance;
+  double? _rating;
+  static int ratedCheck = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    checkBookRated();
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -31,22 +43,29 @@ class _BookDetailsState extends State<BookDetails> {
               //     style: TextStyle(fontSize: 24),
               //   ),
 
-
-              widget.book!.bookImage!.length==0?
-              Image.asset(
+              widget.book!.bookImage!.length == 0
+                  ? Image.asset(
                 "assets/images/bookSoon.jpeg",
                 height: 300,
                 fit: BoxFit.cover,
                 width: 180,
               )
-:
-
-              Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Image.network(widget.book!.bookImage!, height: MediaQuery.of(context).size.height/2.5,width: MediaQuery.of(context).size.width/2,),
+                  : Padding(
+                padding: const EdgeInsets.only( top: 30.0 ),
+                child: Image.network(
+                  widget.book!.bookImage!,
+                  height: MediaQuery
+                      .of( context )
+                      .size
+                      .height / 2.5,
+                  width: MediaQuery
+                      .of( context )
+                      .size
+                      .width / 2,
+                ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: EdgeInsets.symmetric( horizontal: 24, vertical: 20 ),
                 child: Column(
                   children: <Widget>[
                     Row(
@@ -56,9 +75,9 @@ class _BookDetailsState extends State<BookDetails> {
                           style: TextStyle(
                               color: Colors.black87,
                               fontWeight: FontWeight.w700,
-                              fontSize: 21),
+                              fontSize: 21 ),
                         ),
-                        Spacer(),
+                        Spacer( ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
@@ -95,18 +114,29 @@ class _BookDetailsState extends State<BookDetails> {
                     Row(
                       children: <Widget>[
                         Expanded(
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(vertical: 18),
-                            decoration: BoxDecoration(
-                                color: darkGreen,
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Text(
-                              "Comments",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CommentPage(
+                                            book: widget.book,
+                                          ) ) );
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric( vertical: 18 ),
+                              decoration: BoxDecoration(
+                                  color: darkGreen,
+                                  borderRadius: BorderRadius.circular( 12 ) ),
+                              child: Text(
+                                "Comments",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600 ),
+                              ),
                             ),
                           ),
                         ),
@@ -114,18 +144,119 @@ class _BookDetailsState extends State<BookDetails> {
                           width: 20,
                         ),
                         Expanded(
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(vertical: 18),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: greyColor, width: 2),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Text(
-                              "More info",
-                              style: TextStyle(
-                                  color: greyColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600),
+                          child: InkWell(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text( "Hello,Rate This Book" ),
+                                      actions: [
+                                        RatingBar(
+                                          onRatingChanged: (rating) {
+                                            setState( () {
+                                              _rating = rating;
+                                              ratedCheck++;
+                                            } );
+                                          },
+                                          filledIcon: Icons.star,
+                                          emptyIcon: Icons.star_border,
+                                          halfFilledIcon: Icons.star_half,
+                                          isHalfAllowed: false,
+                                          filledColor: Colors.yellowAccent[700],
+                                          emptyColor: Colors.grey,
+                                          halfFilledColor: Colors.amberAccent,
+                                          size: 48,
+                                        ),
+                                        SizedBox( height: 32 ),
+                                        Text(
+                                          'Rating : ${widget.book!.rating
+                                              .toString( )}',
+                                          style: Theme
+                                              .of( context )
+                                              .textTheme
+                                              .subtitle1,
+                                        ),
+                                        TextButton(
+                                            onPressed: () async {
+                                              if (ratedCheck == 1) {
+                                                try {
+                                                  String userId = FirebaseAuth
+                                                      .instance
+                                                      .currentUser!
+                                                      .uid;
+
+
+                                                  await FirebaseFirestore
+                                                      .instance
+                                                      .collection( "books" )
+                                                      .doc(
+                                                      widget.book!.bookID )
+                                                      .update({
+                                                  "ratingCount":
+                                                  FieldValue.increment(1),
+                                                  "totalRating":
+                                                  FieldValue.increment(
+                                                  _rating!.toInt()),
+                                                  "ratedUser":
+                                                  FieldValue.arrayUnion([userId]),
+                                                  });
+                                                } catch (e) {
+                                                  print( e );
+                                                }
+
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                    "Tebrkikler  🎉🎉🎉 kitaba ${_rating!
+                                                        .toInt( )
+                                                        .toString( )} yıldız verdiniz",
+                                                    toastLength:
+                                                    Toast.LENGTH_SHORT,
+                                                    gravity:
+                                                    ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 4,
+                                                    backgroundColor:
+                                                    Colors.white,
+                                                    textColor: Colors.blue[800],
+                                                    fontSize: 16.0 );
+
+                                                Navigator.of( context ).pop( );
+                                              } else if (ratedCheck > 1) {
+                                                print( "rate leme yapıldı" );
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                    "Zaten kitaba yıldız verdin !!!",
+                                                    toastLength:
+                                                    Toast.LENGTH_SHORT,
+                                                    gravity:
+                                                    ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 4,
+                                                    backgroundColor:
+                                                    Colors.grey[800],
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0 );
+                                                Navigator.of( context ).pop( );
+                                              }
+                                            },
+                                            child: Text( "Finish" ) )
+                                      ],
+                                    );
+                                  } );
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.symmetric( vertical: 18 ),
+                              decoration: BoxDecoration(
+                                  border:
+                                  Border.all( color: greyColor, width: 2 ),
+                                  borderRadius: BorderRadius.circular( 12 ) ),
+                              child: Text(
+                                "Give Star ⭐",
+                                style: TextStyle(
+                                    color: greyColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600 ),
+                              ),
                             ),
                           ),
                         )
@@ -140,75 +271,8 @@ class _BookDetailsState extends State<BookDetails> {
       ),
     );
   }
+
+   checkBookRated() {
+
+   }
 }
-
-/*
-  final firestoreInstance = FirebaseFirestore.instance;
-
-  void get_book() {
-    firestoreInstance.collection("books").doc('tur').get().then((querySnapshot) {
-      querySnapshot.docs.forEach((result) {
-        print(result.data());
-      });
-    });
-  }
-
-  void set_book() {
-    CollectionReference BookRef = FirebaseFirestore.instance.collection('books');
-    var kitaptur = BookRef.doc('tur');
-
-    BookRef.add(
-        {
-          "tur" : "BilimKurgu",
-          "id" : 01,
-        }).then((value){
-      print(value.id);
-    });
-  }
-
-
-  void _onPressed(){
-    var firebaseUser =  FirebaseAuth.instance.currentUser;
-    firestoreInstance.collection("books").doc("BilimKurgu").doc(firebaseUser!.uid).set(
-        {
-          "name" : "john",
-          "age" : 50,
-          "email" : "example@example.com",
-          "address" : {
-            "street" : "street 24",
-            "city" : "new york"
-          }
-        }).then((_){
-      print("success!");
-    });
-  }
-
-//CollectionReference books = FirebaseFirestore.instance.collection('books');
-//int _counter=0;
-//CollectionReference UsersRef = FirebaseFirestore.instance.collection('users');
-//UsersRef.add({'field':''});
-
-//final _firestore=FirebaseFirestore.instance;
-
-//int _counter=0;
-// CollectionReference BooksRef = FirebaseFirestore.instance.collection('books');
-//BooksRef.add({'field':'$_counter'});
-
-//CollectionReference kitap = _firestore.collection('books');
-// var kitap1 = _firestore.collection('books').doc('BilimKurgu');
-// print(kitap1.id);
-
-
-
-  CollectionReference bookref = _firestore.collection('books');
-    var PicRef = bookref.doc('1984');
-
-
- var response = await PicRef.get();
-                dynamic map = response.data();
-                print(map['PicRef']);
-                print(map);
-
-
-
-*/
