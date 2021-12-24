@@ -83,18 +83,6 @@ class _ProfileUI2State extends State<ProfileUI2> {
           SizedBox(
             height: 10,
           ),
-          // Text(
-          //   "Istanbul, Türkiye",
-          //   style: TextStyle(
-          //       fontSize: 18.0,
-          //       color: Colors.black45,
-          //       letterSpacing: 2.0,
-          //       fontWeight: FontWeight.w300),
-          // ),
-          SizedBox(
-            height: 10,
-          ),
-
           SizedBox(
             height: 10,
           ),
@@ -179,65 +167,75 @@ class _ProfileUI2State extends State<ProfileUI2> {
               ),
             ),
           ),
-
           Container(
             child: Expanded(
               child: ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(2.0, 8.0, 2.0, 0.0),
-                    child: ListTile(
-//                          color: Colors.blueAccent[700],
-                      trailing: Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: Text(
-                          DateFormat.yMMMd()
-                                  .format(_data[index].commentDateTime!)
-                                  .toString() +
-                              "-" +
-                              DateFormat.j()
-                                  .format(_data[index].commentDateTime!),
-                          style: TextStyle(fontSize: 13),
+                  return Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(2.0, 8.0, 2.0, 0.0),
+                        child: ListTile(
+                          trailing: Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: Text(
+                              DateFormat.yMMMd()
+                                      .format(_data[index].commentDateTime!)
+                                      .toString() +
+                                  "-" +
+                                  DateFormat.j()
+                                      .format(_data[index].commentDateTime!),
+                              style: TextStyle(fontSize: 13),
+                            ),
+                          ),
+                          leading: GestureDetector(
+                            onTap: () async {
+                              // Display the image in large form.
+                            },
+                            child: Container(
+                              height: 150.0,
+                              width: 70.0,
+                              decoration: new BoxDecoration(),
+                              child: bookData!
+                                          .docs[index]['commentedBook']
+                                              ['bookImage']
+                                          .length ==
+                                      0
+                                  ? Image.asset(
+                                      "assets/images/bookSoon.jpeg",
+                                      height: 200,
+                                      fit: BoxFit.cover,
+                                      width: 180,
+                                    )
+                                  : Image.network(
+                                      bookData!.docs[index]['commentedBook']
+                                          ['bookImage'],
+                                    ),
+                            ),
+                          ),
+                          title: Text(
+                            //_data[index].commentedUserName!,
+                            bookData!.docs[index]['commentedBook']['name'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          subtitle: Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text(
+                              _data[index].comment!,
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
                         ),
                       ),
-                      leading: GestureDetector(
-                        onTap: () async {
-                          // Display the image in large form.
-                          print("Comment Clicked");
-                        },
-                        child: Container(
-                          height: 150.0,
-                          width: 70.0,
-                          decoration: new BoxDecoration(),
-                          child: bookData!
-                                      .docs[index]['commentedBook']['bookImage']
-                                      .length ==
-                                  0
-                              ? Image.asset(
-                                  "assets/images/bookSoon.jpeg",
-                                  height: 200,
-                                  fit: BoxFit.cover,
-                                  width: 180,
-                                )
-                              : Image.network(
-                                  bookData!.docs[index]['commentedBook']
-                                      ['bookImage'],
-                                ),
+                      Align(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 2, left: 58),
+                          child: Text("${bookStarHesapla(index)}"),
                         ),
-                      ),
-                      title: Text(
-                        _data[index].commentedUserName!,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          _data[index].comment!,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ),
+                        alignment: Alignment.bottomLeft,
+                      )
+                    ],
                   );
                 },
                 itemCount: _data.length,
@@ -253,7 +251,6 @@ class _ProfileUI2State extends State<ProfileUI2> {
     userName = user!.email!.substring(0, user!.email!.indexOf("@"));
     setState(() {});
 
-    print("getdata çalıştı");
     QuerySnapshot data;
     data = await FirebaseFirestore.instance
         .collection("comments")
@@ -280,6 +277,19 @@ class _ProfileUI2State extends State<ProfileUI2> {
         .collection("books")
         .where("ratedUsers", arrayContains: user!.uid)
         .get();
+
     return commentData.docs.length;
+  }
+
+  bookStarHesapla(int index) {
+    int? totalRate = bookData!.docs[index]['commentedBook']['totalRating'];
+    int? totalCount = bookData!.docs[index]['commentedBook']['ratingCount'];
+
+    if (totalCount == 0) {
+      return "0.0 ⭐";
+    } else {
+      double rate = totalRate! / totalCount!;
+      return rate.toStringAsFixed(2) + "⭐";
+    }
   }
 }
