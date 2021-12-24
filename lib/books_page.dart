@@ -36,6 +36,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    //başlangıç
     // TODO: implement initState
 
     _getData();
@@ -74,6 +75,7 @@ class _HomeState extends State<Home> {
                               parent: AlwaysScrollableScrollPhysics()),
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
+                              //tıklanabilir özelliği
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) =>
@@ -85,13 +87,14 @@ class _HomeState extends State<Home> {
                                   color: Colors.white,
                                   child: _data[index].bookImage!.length == 0
                                       ? Image.asset(
-                                          "assets/images/bookSoon.jpeg",
+                                          "assets/images/bookSoon.jpeg", //placeholder
                                           height: 200,
                                           fit: BoxFit.cover,
                                           width: 180,
                                         )
                                       : Image.network(
-                                          _data[index].bookImage!,
+                                          _data[index]
+                                              .bookImage!, //kitapların resmi
                                           height: 500,
                                           width: 180,
                                         ),
@@ -231,15 +234,20 @@ class _HomeState extends State<Home> {
     );
   }
 
+  //verileri asenkron çektiğimiz alan
   Future _getData() async {
     print("getdata is working");
     QuerySnapshot data;
-    data = await FirebaseFirestore.instance.collection("books").get();
+    data = await FirebaseFirestore.instance
+        .collection("books")
+        .get(); //firebase den books u çekiyoruz
 
     if (data != null && data.docs.length > 0) {
       setState(() {
-        _snap.addAll(data.docs);
-        _data = _snap.map((e) => Book.fromFirestore(e)).toList();
+        _snap.addAll(data.docs); //gelen dataları snapshot a atıyoruz
+        _data = _snap
+            .map((e) => Book.fromFirestore(e))
+            .toList(); //gelen datayı book tipinde tutuyoruz
         secondData = _snap.map((e) => Book.fromFirestore(e)).toList();
         secondData.shuffle();
       });
@@ -247,7 +255,9 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> refresh() async {
+    //anasayfayı refreshleme , refresh indicator
     setState(() {
+      //re-compile
       _data.clear();
       secondData.clear();
       _snap.clear();
@@ -276,63 +286,6 @@ BoxDecoration backgroundGradient() {
           Color(0x995ac18e),
         ]),
   );
-}
-
-class BookListView extends StatelessWidget {
-  final String title;
-  final List<String> books;
-
-  const BookListView({Key? key, required this.title, required this.books})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: LinePainter(),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: Text(
-              title,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 16),
-            height: 150,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: books.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return BookCard(
-                    file: books[index],
-                  );
-                }),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class BookCard extends StatelessWidget {
-  final String file;
-
-  static const filePath = 'assets/images/';
-
-  const BookCard({Key? key, required this.file}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      margin: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Color(0x665ac18e),
-      ),
-      child: Image.asset(filePath + file),
-    );
-  }
 }
 
 class CustomBanner extends StatelessWidget {

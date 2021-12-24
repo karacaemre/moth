@@ -188,7 +188,7 @@ class _LoginScreenState extends State<RegisterPage> {
     );
   }
 
-  Widget buildLoginBtn() {
+  Widget buildRegisterBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25),
       width: double.infinity,
@@ -206,6 +206,7 @@ class _LoginScreenState extends State<RegisterPage> {
           ),
         ),
         onPressed: () async {
+          //firebase
           try {
             final newUser = await _auth.createUserWithEmailAndPassword(
                 email: email, password: password);
@@ -276,7 +277,7 @@ class _LoginScreenState extends State<RegisterPage> {
                       buildPassword(),
                       SizedBox(height: 20),
                       buildRememberCb(),
-                      buildLoginBtn(),
+                      buildRegisterBtn(),
                     ],
                   ),
                 ),

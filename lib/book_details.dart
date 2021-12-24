@@ -19,7 +19,6 @@ class BookDetails extends StatefulWidget {
 }
 
 class _BookDetailsState extends State<BookDetails> {
-  final _firestore = FirebaseFirestore.instance;
   double? _rating;
   double? _myRating;
   bool? rateCheck;
@@ -180,6 +179,7 @@ class _BookDetailsState extends State<BookDetails> {
                                   .toList();
 
                               if (gelenBook[0].ratingCount == 0) {
+                                //rating hesap
                                 widget.book!.rating = 0;
                               } else {
                                 widget.book!.rating =
@@ -224,7 +224,7 @@ class _BookDetailsState extends State<BookDetails> {
                                         ),
                                         TextButton(
                                             onPressed: () async {
-                                              await checkBookRated();
+                                              await checkBookRated(); // check if rated
 
                                               if (rateCheck == false) {
                                                 try {
@@ -232,12 +232,13 @@ class _BookDetailsState extends State<BookDetails> {
                                                       .instance
                                                       .currentUser!
                                                       .uid;
-
+                                                  //
                                                   await FirebaseFirestore
                                                       .instance
                                                       .collection("books")
                                                       .doc(widget.book!.bookID)
                                                       .update({
+                                                    //update rating
                                                     "ratingCount":
                                                         FieldValue.increment(1),
                                                     "totalRating":
@@ -321,6 +322,7 @@ class _BookDetailsState extends State<BookDetails> {
   }
 
   checkBookRated() async {
+    //daha önce rate verdik mi
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
     QuerySnapshot snapshot = await FirebaseFirestore.instance

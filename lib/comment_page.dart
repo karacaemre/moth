@@ -126,11 +126,13 @@ class _TestMeState extends State<CommentPage> {
           withBorder: false,
           errorText: 'Comment cannot be blank',
           sendButtonMethod: () async {
+            //
             var docId = FirebaseFirestore.instance.collection("books").doc().id;
             String userId = FirebaseAuth.instance.currentUser!.uid;
 
             print(userId);
 
+            //username emaildeki @ öncesini alıyoruz
             String? userName = FirebaseAuth.instance.currentUser!.email!
                 .substring(
                     0, FirebaseAuth.instance.currentUser!.email!.indexOf("@"));
@@ -151,7 +153,7 @@ class _TestMeState extends State<CommentPage> {
             });
             commentController.clear();
             FocusScope.of(context).unfocus();
-            await refresh();
+            await refresh(); //firebase e yazıktan sonra refresh ediyoruz
           },
           formKey: formKey,
           commentController: commentController,
@@ -181,6 +183,7 @@ class _TestMeState extends State<CommentPage> {
   }
 
   Future<void> refresh() async {
+    //önceki datayı silip tekrar getdata yapıyoruz
     setState(() {
       _data.clear();
       _snap.clear();

@@ -40,10 +40,10 @@ class addbooksForm extends StatefulWidget {
 }
 
 class addbooksFormState extends State<addbooksForm> {
-  XFile? imageFile;
+  XFile? imageFile; //mobilden gelen resim
   final ImagePicker _picker = ImagePicker();
 
-  TextEditingController nameController = TextEditingController();
+  TextEditingController nameController = TextEditingController(); //form check
   TextEditingController authorController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController summaryController = TextEditingController();
@@ -77,7 +77,7 @@ class addbooksFormState extends State<addbooksForm> {
                 ),
 
                 // ignore: unnecessary_null_comparison
-                imageFile != null
+                imageFile != null //image nullsa sembol, değilse seçilen image
                     ? Center(
                         child: Image.file(
                         File(imageFile!.path),
@@ -89,7 +89,7 @@ class addbooksFormState extends State<addbooksForm> {
                         onTap: () async {
                           try {
                             final pickedFile = await _picker.pickImage(
-                              source: ImageSource.gallery,
+                              source: ImageSource.gallery, //go-to gallery
                               maxWidth: 800,
                               maxHeight: 800,
                               imageQuality: 80,
@@ -159,6 +159,7 @@ class addbooksFormState extends State<addbooksForm> {
                           onPressed: () async {
                             print("onpressed");
                             if (imageFile == null) {
+                              //image eklenmediyse uyarı ver
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -178,8 +179,6 @@ class addbooksFormState extends State<addbooksForm> {
                                       style: TextStyle(color: Colors.black87),
                                     ),
                                     actions: <Widget>[
-                                      // usually buttons at the bottom of the dialog
-
                                       FlatButton(
                                         child: Text(
                                           "Close",
@@ -187,7 +186,8 @@ class addbooksFormState extends State<addbooksForm> {
                                               TextStyle(color: Colors.black87),
                                         ),
                                         onPressed: () {
-                                          Navigator.of(context).pop();
+                                          Navigator.of(context)
+                                              .pop(); //pop-up ı kapat
                                         },
                                       ),
                                       FlatButton(
@@ -197,6 +197,7 @@ class addbooksFormState extends State<addbooksForm> {
                                               TextStyle(color: Colors.black87),
                                         ),
                                         onPressed: () async {
+                                          //Devam dedikten sonra alan kontrolü
                                           if (!nameController.text.isEmpty &&
                                               !authorController.text.isEmpty &&
                                               !dateController.text.isEmpty &&
@@ -205,7 +206,7 @@ class addbooksFormState extends State<addbooksForm> {
                                                 .instance
                                                 .collection("books")
                                                 .doc()
-                                                .id;
+                                                .id; //yeni kitaba id atama
 
                                             bool gelenData =
                                                 await formSubmit(docId);
@@ -218,7 +219,7 @@ class addbooksFormState extends State<addbooksForm> {
                                                               BooksPage()));
                                             }
                                           } else {
-                                            _showDialog();
+                                            _showDialog(); //boş alan var uyarısı
                                           }
                                         },
                                       )

@@ -202,12 +202,14 @@ class _ProfileUI2State extends State<ProfileUI2> {
                                           .length ==
                                       0
                                   ? Image.asset(
+                                      //resimsiz kitaplar
                                       "assets/images/bookSoon.jpeg",
                                       height: 200,
                                       fit: BoxFit.cover,
                                       width: 180,
                                     )
                                   : Image.network(
+                                      //yorum yapılan kitapların resimleri
                                       bookData!.docs[index]['commentedBook']
                                           ['bookImage'],
                                     ),
@@ -248,6 +250,7 @@ class _ProfileUI2State extends State<ProfileUI2> {
   }
 
   Future _getData() async {
+    //verileri çekiyoruz
     userName = user!.email!.substring(0, user!.email!.indexOf("@"));
     setState(() {});
 
@@ -273,6 +276,7 @@ class _ProfileUI2State extends State<ProfileUI2> {
   }
 
   _getRatedData() async {
+    //ratingler
     QuerySnapshot commentData = await FirebaseFirestore.instance
         .collection("books")
         .where("ratedUsers", arrayContains: user!.uid)
@@ -282,6 +286,7 @@ class _ProfileUI2State extends State<ProfileUI2> {
   }
 
   bookStarHesapla(int index) {
+    //rating hesap
     int? totalRate = bookData!.docs[index]['commentedBook']['totalRating'];
     int? totalCount = bookData!.docs[index]['commentedBook']['ratingCount'];
 

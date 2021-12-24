@@ -112,7 +112,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget buildForgotPassBtn() {
+  Widget buildSignupBtn() {
+    //Signup butonu
     return Container(
       alignment: Alignment.centerRight,
       child: RaisedButton(
@@ -248,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       buildEmail(),
                       SizedBox(height: 20),
                       buildPassword(),
-                      buildForgotPassBtn(),
+                      buildSignupBtn(),
                       buildRememberCb(),
                       buildLoginBtn(),
                     ],
